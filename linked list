@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+// Struct to represent a node in the linked list
+struct Node {
+    int row;
+    int col;
+    int value;
+    Node* next;
+};
+
+// Class to represent a sparse matrix using a linked list
+class SparseMatrixLL {
+private:
+    Node* head;
+    int rows, cols;
+public:
+    SparseMatrixLL(int rows, int cols) : rows(rows), cols(cols), head(nullptr) {}
+
+    ~SparseMatrixLL() {
+        while (head != nullptr) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+
+    void addElement(int row, int col, int value) {
+        if (row >= rows || col >= cols) {
+            cout << "Invalid position!" << endl;
+            return;
+        }
+        if (value != 0) {
+            Node* newNode = new Node{row, col, value, head};
+            head = newNode;
+        }
+    }
+
+    void display() {
+        Node* current = head;
+        while (current != nullptr) {
+            cout << "Row: " << current->row << ", Col: " << current->col << ", Value: " << current->value << endl;
+            current = current->next;
+        }
+    }
+
+    // Additional methods for operations can be added here
+};
+
+int main() {
+    SparseMatrixLL sm(5, 5);
+    sm.addElement(0, 1, 5);
+    sm.addElement(2, 3, 8);
+    sm.addElement(4, 0, 6);
+    sm.display();
+
+    return 0;
+}
